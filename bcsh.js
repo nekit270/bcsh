@@ -57,7 +57,9 @@ window.bcsh = {
 
               about_variables: "<h2>Переменные</h2>Переменные задаются с помощью команды set: <br><b><i>set &lt;имя переменной&gt;, &lt;значение переменной&gt;</i></b><br>Вставить значение переменной в параметр команды можно с помощью оператора @{}: <br><b><i>команда '@{<имя переменной>}', ...</i></b><br>",
 
-              about_scripts: "<h1>Скрипты</h2>Скрипты BCSH - это текстовые файлы, содержащие набор команд: <br><b><i>&nbsp;&nbsp;&nbsp;команда1 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;команда2 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;команда3 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;...</i></b><br><br>Также в скриптах можно создавать многострочные блоки кода, используя пробел и точку с запятой после каждой строки:<br><b><i>&nbsp;&nbsp;&nbsp;...<br>&nbsp;&nbsp;&nbsp;команда \` ;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;команда1 &lt;параметры&gt; ;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;команда2 &lt;параметры&gt; ;<br>&nbsp;&nbsp;&nbsp;\`<br>&nbsp;&nbsp;&nbsp;...</i></b><br>"
+              about_scripts: "<h1>Скрипты</h2>Скрипты BCSH - это текстовые файлы, содержащие набор команд: <br><b><i>&nbsp;&nbsp;&nbsp;команда1 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;команда2 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;команда3 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;...</i></b><br><br>Также в скриптах можно создавать многострочные блоки кода, используя пробел и точку с запятой после каждой строки:<br><b><i>&nbsp;&nbsp;&nbsp;...<br>&nbsp;&nbsp;&nbsp;команда \` ;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;команда1 &lt;параметры&gt; ;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;команда2 &lt;параметры&gt; ;<br>&nbsp;&nbsp;&nbsp;\`<br>&nbsp;&nbsp;&nbsp;...</i></b><br>",
+              
+              cmdlist: "<h1>cmdlist</h1>Возвращает список всех доступных команд."
           },
           functions: {},
           version: "BCSH v4.3",
