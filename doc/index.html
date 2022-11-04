@@ -2,15 +2,73 @@
 <html lang="ru" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>html template</title>
+        <title>Справка BCSH</title>
         <style>
             body, html{
-                font: 22px Arial;
+                font: 16px Consolas, monospace;
                 cursor: default;
+                padding: 5px;
+            }
+            *{
+                font-family: Consolas, monospace;
+            }
+            a{
+                text-decoration: none;
+            }
+            a:visited{
+                color: blue;
+            }
+            a:hover{
+                color: green;
             }
         </style>
     </head>
     <body>
+        <div id="back">
+            <a href="javascript:history.back()">Назад</a>
+            <br><br>
+        </div>
+        <div>Выберите раздел справки:</div>
+        <select style="width: 50em;" id="sel">
+            <option disabled selected>Не выбрано</option>
+        </select>
+        <button id="go">Перейти</button>
+        <br><br><br>
 
+        <noscript>Включите JavaScript, чтобы пользоваться сайтом.</noscript>
+
+        <script src="https://nekit270.github.io/bcsh/bcsh.js"></script>
+        <script>
+            let params = {};
+            let p = location.search.replace('?', '').split('&');
+            p.forEach((e,i,o)=>{
+                e = e.split('=');
+                let name = e[0], value = decodeURIComponent(e[1]);
+                params[name] = value;
+            });
+            
+            if(!params.name) params.name = 'main';
+
+            if(params.back != '1') document.querySelector('#back').style.display = 'none';
+
+            let sel = document.querySelector('#sel');
+            for(let i in bcsh.help){
+                let opt = document.createElement('option');
+                opt.innerText = i;
+                if(i == params.name) opt.selected = true;
+                sel.appendChild(opt);
+            }
+
+            document.querySelector('#go').addEventListener('click', ()=>{
+                location.href = '?name='+sel.selectedOptions[0].innerText+'&back=1';
+            });
+
+            let help = bcsh.exec(`help ${params.name}`);
+            help = help.replace(/<b><i>help ([a-z_]+)<\/i><\/b>/g, '<a href="?name=$1&back=1">help $1</a>');
+            
+            let div = document.createElement('div');
+            div.innerHTML = help;
+            document.body.appendChild(div);
+        </script>
     </body>
 </html>
