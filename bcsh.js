@@ -1,4 +1,4 @@
-﻿window.bcsh = {
+window.bcsh = {
           commands: {
               "cmdlist": (args)=>{ return Object.keys(bcsh.commands).join(args[0]?args[0]:", ") },
               "help": (args)=>{ if(!args[0]) args[0] = "main"; return bcsh.help[args[0]] },
@@ -19,6 +19,7 @@
               "str.split": (args)=>{ return args[0].toString().split(args[1]) },
               "str.match": (args)=>{ return args[0].match(new RegExp(args[1])) },
               "str.contains": (args)=>{ return args[0].includes(args[1]) },
+              "str.equals": (args)=>{ return (args[0] == args[1]) },
               "str.escapeHtml": (args)=>{ return args[0].replaceAll("<", "&lt;").replaceAll(">", "&gt;") },
               "obj.get": (args)=>{ return JSON.parse(args[0])[args[1]] },
               "obj.set": (args)=>{ let o = JSON.parse(args[0]); o[args[1]] = args[2]; return o },
@@ -41,11 +42,13 @@
               "html.event": (args)=>{ document.querySelector(args[0]).addEventListener(args[1], (e)=>{ bcsh.exec(args[2].replaceAll("@{e}", JSON.stringify(e))) }) },
               "html.add": (args)=>{ document.querySelector(args[0])[args[1]] += args[2] },
               "html.delete": (args)=>{ let el = document.querySelector(args[0]); el.parentNode.removeChild(el) },
+              "file.write": (args)=>{ localStorage[args[0]] = args[1] },
+              "file.read": (args)=>{ return localStorage[args[0]] },
               "window.msgbox": (args)=>{ alert(args[0]); },
               "sound.beep": (args)=>{ let ac = new AudioContext(); let osc = ac.createOscillator(); osc.frequency.value = args[0]; osc.connect(ac.destination); osc.start(0); osc.stop(args[1]); },
               "sound.speak": (args)=>{ let u = new SpeechSynthesisUtterance(); u.text = args[0]; window.speechSynthesis.speak(u); },
               "data.decode": (args)=>{ return decodeURIComponent(atob(args[0])); },
-              "data.encode": (args)=>{ return btoa(encodeURIComponent(args[0])); },
+              "data.encode": (args)=>{ return btoa(encodeURIComponent(args[0])); }
           },
           help: {
               main: "<h2>Справка BCSH</h2><b><i>cmdlist</i></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Список команд<br><b><i>help &lt;команда&gt;</i></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Описание команды<br><b><i>help about_syntax</i></b>&nbsp;&nbsp;&nbsp;&nbsp;Синтаксис<br><b><i>help about_variables</i></b>&nbsp;Переменные<br><b><i>help about_scripts</i></b>&nbsp;&nbsp;&nbsp;Скрипты",
@@ -57,8 +60,8 @@
               about_scripts: "<h1>Скрипты</h2>Скрипты BCSH - это текстовые файлы, содержащие набор команд: <br><b><i>&nbsp;&nbsp;&nbsp;команда1 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;команда2 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;команда3 &lt;параметры&gt;<br>&nbsp;&nbsp;&nbsp;...</i></b><br><br>Также в скриптах можно создавать многострочные блоки кода, используя пробел и точку с запятой после каждой строки:<br><b><i>&nbsp;&nbsp;&nbsp;...<br>&nbsp;&nbsp;&nbsp;команда \` ;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;команда1 &lt;параметры&gt; ;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;команда2 &lt;параметры&gt; ;<br>&nbsp;&nbsp;&nbsp;\`<br>&nbsp;&nbsp;&nbsp;...</i></b><br>"
           },
           functions: {},
-          version: "BCSH v4.2 Lib",
-          ver: 4.2,
+          version: "BCSH v4.3",
+          ver: 4.3,
           exec: function(cmdto){
                 cmdto = cmdto.toString();
                 if(!cmdto || cmdto.toString().trim() == "") return "";
@@ -159,14 +162,12 @@
                 if(ret && typeof ret == "object") ret = JSON.stringify(ret);
                 return ((ret || ret === 0)?ret:"");
           },
-          execScript: function(filename){
-              let code = bclib.file.read(filename);
+          execScript: function(code){
               code = code.replaceAll(";\n", "\\; ");
               code = code.split("\n");
               for(let i in code){
                   if(code[i].startsWith("#") || code[i] == "") continue;
                   bcsh.exec(code[i]);
               }
-          },
-          
+          }
 }
