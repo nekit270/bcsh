@@ -1,0 +1,3 @@
+{
+	"some": function(args){ return args.join(" - ") }
+}
